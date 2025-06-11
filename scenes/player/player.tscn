@@ -1,0 +1,104 @@
+[gd_scene load_steps=9 format=3 uid="uid://bvvlr015ngbid"]
+
+[ext_resource type="Script" uid="uid://cis6du41wmi2b" path="res://scenes/player/player.gd" id="1_8afob"]
+[ext_resource type="Texture2D" uid="uid://8c8ttxgvoqed" path="res://graphics/player/miner_animation.png" id="2_dovo2"]
+[ext_resource type="Texture2D" uid="uid://4uhnf7je6ceb" path="res://graphics/player/miner_walking.png" id="3_gmlin"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p47bc"]
+size = Vector2(17.9015, 10)
+
+[sub_resource type="Animation" id="Animation_dovo2"]
+resource_name = "idle"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerState/MinerIdle:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4]
+}
+
+[sub_resource type="Animation" id="Animation_gmlin"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerState/MinerIdle:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PlayerState/MinerWalking:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_lvxji"]
+resource_name = "walking"
+length = 1.6
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerState/MinerWalking:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [4, 1, 6, 3, 0, 5, 2, 5]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lvxji"]
+_data = {
+&"RESET": SubResource("Animation_gmlin"),
+&"idle": SubResource("Animation_dovo2"),
+&"walking": SubResource("Animation_lvxji")
+}
+
+[node name="Player" type="CharacterBody2D"]
+collision_mask = 31
+script = ExtResource("1_8afob")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1.32791, 19.3672)
+scale = Vector2(1.26558, -2.07343)
+shape = SubResource("RectangleShape2D_p47bc")
+
+[node name="PlayerState" type="Node2D" parent="."]
+
+[node name="MinerIdle" type="Sprite2D" parent="PlayerState"]
+visible = false
+texture = ExtResource("2_dovo2")
+hframes = 4
+vframes = 6
+
+[node name="MinerWalking" type="Sprite2D" parent="PlayerState"]
+texture = ExtResource("3_gmlin")
+hframes = 3
+vframes = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_lvxji")
+}
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
