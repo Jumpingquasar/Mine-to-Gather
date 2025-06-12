@@ -4,5 +4,10 @@
 
 [node name="ParentLevel" type="Node2D"]
 
+[node name="Objects" type="Node2D" parent="."]
+
 [node name="Player" parent="." instance=ExtResource("1_npjkf")]
-position = Vector2(268, 417)
+y_sort_enabled = true
+
+[node name="Enemies" type="Node2D" parent="."]
+position = Vector2(0, 1)

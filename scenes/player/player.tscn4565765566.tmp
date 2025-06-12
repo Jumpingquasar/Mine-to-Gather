@@ -1,9 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://bvvlr015ngbid"]
+[gd_scene load_steps=9 format=3 uid="uid://bvvlr015ngbid"]
 
 [ext_resource type="Script" uid="uid://cis6du41wmi2b" path="res://scenes/player/player.gd" id="1_8afob"]
 [ext_resource type="Texture2D" uid="uid://8c8ttxgvoqed" path="res://graphics/player/miner_animation.png" id="2_dovo2"]
 [ext_resource type="Texture2D" uid="uid://4uhnf7je6ceb" path="res://graphics/player/miner_walking.png" id="3_gmlin"]
-[ext_resource type="Texture2D" uid="uid://bxr53pp6vx3ar" path="res://graphics/player/miner_mining.png" id="4_lvxji"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p47bc"]
 size = Vector2(17.9015, 10)
@@ -34,18 +33,6 @@ tracks/1/keys = {
 "update": 1,
 "values": [0]
 }
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("PlayerState/MinerMining:frame")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [1]
-}
 
 [sub_resource type="Animation" id="Animation_dovo2"]
 resource_name = "idle"
@@ -63,26 +50,10 @@ tracks/0/keys = {
 "values": [0, 1, 2, 3, 4]
 }
 
-[sub_resource type="Animation" id="Animation_p47bc"]
-resource_name = "mining"
-step = 0.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("PlayerState/MinerMining:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [0, 1, 2, 3, 4, 3, 4, 3, 4]
-}
-
 [sub_resource type="Animation" id="Animation_lvxji"]
 resource_name = "walking"
-length = 0.8
-step = 0.05
+length = 1.6
+step = 0.2
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -90,17 +61,16 @@ tracks/0/path = NodePath("PlayerState/MinerWalking:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [4, 1, 3, 6, 0, 5, 2, 5]
+"values": [4, 1, 6, 3, 0, 5, 2, 5]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_lvxji"]
 _data = {
 &"RESET": SubResource("Animation_gmlin"),
 &"idle": SubResource("Animation_dovo2"),
-&"mining": SubResource("Animation_p47bc"),
 &"walking": SubResource("Animation_lvxji")
 }
 
@@ -116,6 +86,7 @@ shape = SubResource("RectangleShape2D_p47bc")
 [node name="PlayerState" type="Node2D" parent="."]
 
 [node name="MinerIdle" type="Sprite2D" parent="PlayerState"]
+visible = false
 texture = ExtResource("2_dovo2")
 hframes = 4
 vframes = 6
@@ -125,19 +96,9 @@ texture = ExtResource("3_gmlin")
 hframes = 3
 vframes = 3
 
-[node name="MinerMining" type="Sprite2D" parent="PlayerState"]
-visible = false
-texture = ExtResource("4_lvxji")
-hframes = 2
-vframes = 3
-frame = 1
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_lvxji")
 }
-
-[node name="MiningTimer" type="Timer" parent="."]
-one_shot = true
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

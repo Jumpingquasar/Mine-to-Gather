@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://df6srusqaquo2"]
+
+[ext_resource type="PackedScene" uid="uid://dypq7kc8s3xh0" path="res://levels/parent_level.tscn" id="1_k1ttk"]
+[ext_resource type="Script" uid="uid://dqy3jmlsxfeeb" path="res://levels/level_1/level_1.gd" id="2_45440"]
+[ext_resource type="PackedScene" uid="uid://cpwk3ih7dprk2" path="res://scenes/chunk/level_1_chunk.tscn" id="4_iey7c"]
+
+[node name="ParentLevel" instance=ExtResource("1_k1ttk")]
+y_sort_enabled = true
+script = ExtResource("2_45440")
+
+[node name="Chunks" type="Node2D" parent="." index="0"]
+
+[node name="Level1Chunk" parent="Chunks" index="0" instance=ExtResource("4_iey7c")]
+
+[node name="Objects" parent="." index="1"]
+y_sort_enabled = true
+
+[node name="Camera2D" type="Camera2D" parent="Player" index="4"]
+scale = Vector2(1, 1.01686)
+
+[connection signal="playerLocation" from="Chunks/Level1Chunk" to="." method="_on_level_1_chunk_player_location"]

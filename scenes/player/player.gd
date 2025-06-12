@@ -1,13 +1,14 @@
 extends CharacterBody2D
 
-@export var max_speed: int = 200
-var speed: int = 0
-var acceleration: float = 100
+var numerical_acceleration: int = 500
+var numerical_deceleration: int = 1000
+var max_speed: int = 300
 
 func _ready():
 	$AnimationPlayer.play("idle")
 
-func _process(_delta: float):
+func _process(delta: float):
+	
 	var direction = Input.get_vector("left","right","up", "down")
 	
 	if direction[0] < 0:
@@ -15,20 +16,30 @@ func _process(_delta: float):
 	elif direction[0] > 0:
 		$PlayerState.scale = Vector2(1, 1)
 	
-	velocity = direction * (speed + acceleration)
-	
-	if velocity:
-		$PlayerState/MinerIdle.visible = false
-		$PlayerState/MinerWalking.visible = true
-		$AnimationPlayer.play("walking")
+	if !$MiningTimer.is_stopped():
+		velocity = velocity.move_toward(Vector2.ZERO, numerical_deceleration * delta )
+	elif direction != Vector2.ZERO:
+		velocity = velocity.move_toward(direction * max_speed, numerical_acceleration * delta)
 	else:
-		$PlayerState/MinerIdle.visible = true
-		$PlayerState/MinerWalking.visible = false
-		$AnimationPlayer.play("idle")
+		velocity = velocity.move_toward(Vector2.ZERO, numerical_deceleration * delta)
+	
+	if ($MiningTimer.is_stopped()):
+		if velocity:
+			Globals.playerMovementState = MovementState.walking
+			_on_player_movement_state_changed(MovementState.walking)
+		else:
+			Globals.playerMovementState = MovementState.idle
+			_on_player_movement_state_changed(MovementState.idle)
 
 	move_and_slide()
 
 
-
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	$AnimationPlayer.play(anim_name)
+
+func _on_player_movement_state_changed(state: String): 
+	$PlayerState/MinerIdle.visible =  state == MovementState.idle
+	$PlayerState/MinerWalking.visible =  state == MovementState.walking
+	#$PlayerState/MinerMining.visible = state == MovementState.mining
+	$AnimationPlayer.play(state)
+	
