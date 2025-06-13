@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://32nwr2ry1rq0"]
+
+[ext_resource type="Texture2D" uid="uid://bg7ydw5j8pqek" path="res://graphics/hand_cannon/hand_cannon_bullet.png" id="1_7o413"]
+[ext_resource type="Script" uid="uid://dwo6ngngr5bwy" path="res://scenes/hand_cannon/bullet.gd" id="1_ys0yl"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ys0yl"]
+
+[node name="Bullet" type="Area2D"]
+top_level = true
+scale = Vector2(1.8497, 1.8497)
+collision_layer = 8
+collision_mask = 20
+script = ExtResource("1_ys0yl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(0.200499, 0.204817)
+shape = SubResource("CircleShape2D_ys0yl")
+
+[node name="HandCannonBullet" type="Sprite2D" parent="."]
+position = Vector2(0, 1)
+scale = Vector2(0.296013, 0.296013)
+texture = ExtResource("1_7o413")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

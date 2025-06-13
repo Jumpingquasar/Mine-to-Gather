@@ -1,12 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://bvvlr015ngbid"]
+[gd_scene load_steps=12 format=3 uid="uid://bvvlr015ngbid"]
 
 [ext_resource type="Script" uid="uid://cis6du41wmi2b" path="res://scenes/player/player.gd" id="1_8afob"]
 [ext_resource type="Texture2D" uid="uid://8c8ttxgvoqed" path="res://graphics/player/miner_animation.png" id="2_dovo2"]
 [ext_resource type="Texture2D" uid="uid://4uhnf7je6ceb" path="res://graphics/player/miner_walking.png" id="3_gmlin"]
 [ext_resource type="Texture2D" uid="uid://bxr53pp6vx3ar" path="res://graphics/player/miner_mining.png" id="4_lvxji"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_p47bc"]
-size = Vector2(17.9015, 10)
+[ext_resource type="PackedScene" uid="uid://bdarxdn3une7a" path="res://scenes/hand_cannon/hand_cannon.tscn" id="5_p47bc"]
 
 [sub_resource type="Animation" id="Animation_gmlin"]
 length = 0.001
@@ -104,14 +102,11 @@ _data = {
 &"walking": SubResource("Animation_lvxji")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lvxji"]
+
 [node name="Player" type="CharacterBody2D"]
 collision_mask = 31
 script = ExtResource("1_8afob")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-1.32791, 19.3672)
-scale = Vector2(1.26558, -2.07343)
-shape = SubResource("RectangleShape2D_p47bc")
 
 [node name="PlayerState" type="Node2D" parent="."]
 
@@ -139,5 +134,13 @@ libraries = {
 
 [node name="MiningTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 16)
+scale = Vector2(1.19226, -1.60082)
+shape = SubResource("RectangleShape2D_lvxji")
+
+[node name="HandCannon" parent="." instance=ExtResource("5_p47bc")]
+position = Vector2(0, 1)
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://xca3loiv75iq"]
+[gd_scene load_steps=11 format=3 uid="uid://xca3loiv75iq"]
 
 [ext_resource type="Script" uid="uid://c84mpfb0w2fk8" path="res://scenes/boulder/boulder.gd" id="1_785x2"]
 [ext_resource type="Texture2D" uid="uid://bxm7sl8qkulf3" path="res://graphics/boulders/boulder_1.png" id="1_vqm6d"]
@@ -8,7 +8,75 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gb4b6"]
 
+[sub_resource type="Animation" id="Animation_tirnv"]
+resource_name = "Boulder1_sparkle"
+length = 8.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Boulder1:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 6.03333, 6.4, 6.66667),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 0]
+}
+
+[sub_resource type="Animation" id="Animation_qx6ih"]
+resource_name = "Boulder2_sparkle"
+length = 11.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Boulder2:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 10, 10.1667, 10.4333),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 0]
+}
+
+[sub_resource type="Animation" id="Animation_gb4b6"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Boulder1:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Boulder2:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qx6ih"]
+_data = {
+&"Boulder1_sparkle": SubResource("Animation_tirnv"),
+&"Boulder2_sparkle": SubResource("Animation_qx6ih"),
+&"RESET": SubResource("Animation_gb4b6")
+}
+
 [node name="Boulder" type="StaticBody2D"]
+collision_layer = 16
+collision_mask = 13
 script = ExtResource("1_785x2")
 
 [node name="ShadowBoulder" type="Sprite2D" parent="."]
@@ -35,7 +103,17 @@ position = Vector2(2, -7)
 texture = ExtResource("3_tirnv")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 4)
+position = Vector2(0, 7)
 rotation = 0.00829922
-scale = Vector2(-1.76506, -0.811966)
+scale = Vector2(-0.792047, -0.494288)
 shape = SubResource("CircleShape2D_gb4b6")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_qx6ih")
+}
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

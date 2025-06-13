@@ -23,7 +23,11 @@ func _process(delta: float):
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, numerical_deceleration * delta)
 	
-	if ($MiningTimer.is_stopped()):
+	if Input.is_action_just_pressed("mine"):
+		$MiningTimer.start(1)
+		Globals.playerMovementState = MovementState.mining
+		_on_player_movement_state_changed(MovementState.mining)
+	elif $MiningTimer.is_stopped():
 		if velocity:
 			Globals.playerMovementState = MovementState.walking
 			_on_player_movement_state_changed(MovementState.walking)
@@ -40,6 +44,6 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 func _on_player_movement_state_changed(state: String): 
 	$PlayerState/MinerIdle.visible =  state == MovementState.idle
 	$PlayerState/MinerWalking.visible =  state == MovementState.walking
-	#$PlayerState/MinerMining.visible = state == MovementState.mining
+	$PlayerState/MinerMining.visible = state == MovementState.mining
 	$AnimationPlayer.play(state)
 	

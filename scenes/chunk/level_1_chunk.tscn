@@ -6,21 +6,23 @@
 size = Vector2(23.04, 12.96)
 
 [node name="Level1Chunk" type="Area2D"]
-script = ExtResource("1_pvlcs")
-
-[node name="ColorRect" type="ColorRect" parent="."]
-offset_left = -575.0
-offset_top = -321.0
-offset_right = 577.0
-offset_bottom = 327.0
-color = Color(0.743582, 0.455792, 0.162666, 0.345098)
-
-[node name="Objects" type="Node2D" parent="."]
 y_sort_enabled = true
+script = ExtResource("1_pvlcs")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1.00002, 3)
 scale = Vector2(50, 50)
 shape = SubResource("RectangleShape2D_pvlcs")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+z_index = -1
+offset_left = -575.0
+offset_top = -321.0
+offset_right = 577.0
+offset_bottom = 327.0
+color = Color(0.262119, 0.127929, 0.0660719, 1)
+
+[node name="Objects" type="Node2D" parent="."]
+y_sort_enabled = true
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
