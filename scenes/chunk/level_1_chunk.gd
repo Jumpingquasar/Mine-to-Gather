@@ -3,10 +3,11 @@ class_name Level1Chunk
 
 var chunkCoordinates: Vector2 = Vector2(0, 0)
 var boulder_scene = preload("res://scenes/boulder/boulder.tscn")
+signal boulderBroken(boulderLocation: Vector2)
 
 signal playerLocation(coord: Vector2, chunkSize: Vector2)
 @onready var chunkSize: Vector2 = $ColorRect.size
-@onready var player = get_node("/root/ParentLevel/Player")
+@onready var player = get_node("/root/Level1/Player")
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.has_node("PlayerState"):
@@ -24,4 +25,5 @@ func _ready() -> void:
 		var boulderY = randi_range(-300, 300)
 		var boulder = boulder_scene.instantiate()
 		boulder.position = Vector2(boulderX, boulderY)
+		boulder.boulderBroken.connect(func(pos): boulderBroken.emit(pos))
 		$Objects.add_child(boulder)

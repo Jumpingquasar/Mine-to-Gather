@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://dbifip4xa8xiq"]
+
+[ext_resource type="AudioStream" uid="uid://di0fbm57g7r0" path="res://sounds/slime_death.wav" id="1_4dibg"]
+
+[node name="Death" type="AudioStreamPlayer2D"]
+stream = ExtResource("1_4dibg")
+volume_db = -0.365

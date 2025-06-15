@@ -1,12 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://dypq7kc8s3xh0"]
+[gd_scene load_steps=3 format=3 uid="uid://dypq7kc8s3xh0"]
 
 [ext_resource type="PackedScene" uid="uid://bvvlr015ngbid" path="res://scenes/player/player.tscn" id="1_npjkf"]
+[ext_resource type="Script" uid="uid://cv2xvf66fego1" path="res://levels/parent_level.gd" id="1_rvoi3"]
 
 [node name="ParentLevel" type="Node2D"]
 y_sort_enabled = true
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-layer = -1
+script = ExtResource("1_rvoi3")
 
 [node name="Chunks" type="Node2D" parent="."]
 y_sort_enabled = true
@@ -22,3 +21,46 @@ position = Vector2(0, 1)
 y_sort_enabled = true
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
+
+[node name="GameOver" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="GameOver"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.552941)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameOver"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -46.0
+offset_top = -23.5
+offset_right = 46.0
+offset_bottom = 23.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="GameOver" type="Label" parent="GameOver/VBoxContainer"]
+layout_mode = 2
+text = "Game Over!"
+
+[node name="TimeLasted" type="Label" parent="GameOver/VBoxContainer"]
+layout_mode = 2
+
+[node name="Restart" type="Button" parent="GameOver/VBoxContainer"]
+layout_mode = 2
+text = "Restart"
+
+[node name="Quit" type="Button" parent="GameOver/VBoxContainer"]
+layout_mode = 2
+text = "Quit"
+
+[connection signal="player_death" from="Player" to="Player" method="_on_player_death"]

@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Mine to Gather"
-run/main_scene="uid://dypq7kc8s3xh0"
+run/main_scene="uid://3u37cwxbn6fa"
 config/features=PackedStringArray("4.4", "Mobile")
 config/icon="res://icon.svg"
 
@@ -55,7 +55,9 @@ mine={
 2d_physics/layer_3="Enemies"
 2d_physics/layer_4="Projectiles"
 2d_physics/layer_5="Objects"
+2d_physics/layer_6="Zones"
 
 [rendering]
 
 renderer/rendering_method="mobile"
+viewport/hdr_2d=true

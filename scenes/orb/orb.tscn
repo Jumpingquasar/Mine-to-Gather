@@ -1,0 +1,75 @@
+[gd_scene load_steps=12 format=3 uid="uid://cihd41jqirf17"]
+
+[ext_resource type="Script" uid="uid://cp0iwlf4hphxd" path="res://scenes/orb/orb.gd" id="1_2a08o"]
+[ext_resource type="Texture2D" uid="uid://cjjjjofue4dty" path="res://graphics/orb/health.png" id="1_55cxl"]
+[ext_resource type="Texture2D" uid="uid://byl5ha3ul5jfn" path="res://graphics/orb/speed.png" id="2_2a08o"]
+[ext_resource type="Texture2D" uid="uid://b1alkycj71jte" path="res://graphics/orb/damage.png" id="3_m0mdp"]
+[ext_resource type="Texture2D" uid="uid://cuj1nyno5v53p" path="res://graphics/orb/pass_through.png" id="5_m0mdp"]
+[ext_resource type="AudioStream" uid="uid://codqwkobwygpo" path="res://sounds/health.wav" id="6_vefon"]
+[ext_resource type="AudioStream" uid="uid://dcl45rxqif2t5" path="res://sounds/speed.wav" id="7_1bc1j"]
+[ext_resource type="AudioStream" uid="uid://cqhwh81o6bisp" path="res://sounds/damage.wav" id="8_nxrem"]
+[ext_resource type="AudioStream" uid="uid://djhsuy0xfdab4" path="res://sounds/passthrough.wav" id="9_b0a2p"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2a08o"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_m0mdp"]
+
+[node name="Orb" type="Area2D"]
+collision_layer = 16
+script = ExtResource("1_2a08o")
+
+[node name="Image" type="Node2D" parent="."]
+
+[node name="Health" type="Sprite2D" parent="Image"]
+unique_name_in_owner = true
+visible = false
+texture = ExtResource("1_55cxl")
+
+[node name="Speed" type="Sprite2D" parent="Image"]
+unique_name_in_owner = true
+visible = false
+texture = ExtResource("2_2a08o")
+
+[node name="Damage" type="Sprite2D" parent="Image"]
+unique_name_in_owner = true
+visible = false
+texture = ExtResource("3_m0mdp")
+
+[node name="PassThrough" type="Sprite2D" parent="Image"]
+visible = false
+texture = ExtResource("5_m0mdp")
+
+[node name="AttractArea" type="CollisionShape2D" parent="."]
+scale = Vector2(13.5002, -12.8835)
+shape = SubResource("CircleShape2D_2a08o")
+
+[node name="PickUp" type="Area2D" parent="."]
+
+[node name="PickUpArea" type="CollisionShape2D" parent="PickUp"]
+position = Vector2(2, -4)
+scale = Vector2(1.18912, 1.19534)
+shape = SubResource("CircleShape2D_m0mdp")
+
+[node name="Health" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_vefon")
+volume_db = -3.565
+
+[node name="Speed" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_1bc1j")
+volume_db = -3.565
+
+[node name="Damage" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_nxrem")
+volume_db = -3.565
+
+[node name="Passthrough" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("9_b0a2p")
+volume_db = -3.565
+
+[connection signal="body_entered" from="." to="." method="_on_attract_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_attract_body_exited"]
+[connection signal="body_entered" from="PickUp" to="." method="_on_pick_up_body_entered"]
+[connection signal="finished" from="Health" to="." method="_on_health_finished"]
+[connection signal="finished" from="Speed" to="." method="_on_speed_finished"]
+[connection signal="finished" from="Damage" to="." method="_on_damage_finished"]
+[connection signal="finished" from="Passthrough" to="." method="_on_passthrough_finished"]

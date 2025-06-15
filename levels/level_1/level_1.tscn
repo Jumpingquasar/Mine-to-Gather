@@ -2,8 +2,8 @@
 
 [ext_resource type="PackedScene" uid="uid://dypq7kc8s3xh0" path="res://levels/parent_level.tscn" id="1_k1ttk"]
 [ext_resource type="Script" uid="uid://dqy3jmlsxfeeb" path="res://levels/level_1/level_1.gd" id="2_45440"]
-[ext_resource type="PackedScene" uid="uid://bf8gauepq6yex" path="res://scenes/enemies/green_slime.tscn" id="4_5b03i"]
-[ext_resource type="PackedScene" uid="uid://cpwk3ih7dprk2" path="res://scenes/chunk/level_1_chunk.tscn" id="4_iey7c"]
+[ext_resource type="PackedScene" uid="uid://cnxi1bupfg7cq" path="res://scenes/UI/UI.tscn" id="4_5b03i"]
+[ext_resource type="AudioStream" uid="uid://msxhya4gbpe" path="res://sounds/game-176807.mp3" id="4_iey7c"]
 
 [sub_resource type="Curve2D" id="Curve2D_iey7c"]
 _data = {
@@ -11,28 +11,11 @@ _data = {
 }
 point_count = 5
 
-[node name="ParentLevel" instance=ExtResource("1_k1ttk")]
+[node name="Level1" instance=ExtResource("1_k1ttk")]
 script = ExtResource("2_45440")
 
-[node name="Level1Chunk" parent="Chunks" index="0" instance=ExtResource("4_iey7c")]
-
-[node name="BasicWhite" parent="Enemies" index="0" instance=ExtResource("4_5b03i")]
-position = Vector2(-118, -145)
-
-[node name="BasicWhite2" parent="Enemies" index="1" instance=ExtResource("4_5b03i")]
-position = Vector2(28, 182)
-
-[node name="BasicWhite3" parent="Enemies" index="2" instance=ExtResource("4_5b03i")]
-position = Vector2(222, 119)
-
-[node name="BasicWhite4" parent="Enemies" index="3" instance=ExtResource("4_5b03i")]
-position = Vector2(-170, 215)
-
-[node name="BasicWhite5" parent="Enemies" index="4" instance=ExtResource("4_5b03i")]
-position = Vector2(-216, -26)
-
-[node name="BasicWhite6" parent="Enemies" index="5" instance=ExtResource("4_5b03i")]
-position = Vector2(89, -221)
+[node name="Camera2D" parent="Player" index="10"]
+zoom = Vector2(1.5, 1.5)
 
 [node name="Path2D" type="Path2D" parent="Player/Camera2D" index="0"]
 curve = SubResource("Curve2D_iey7c")
@@ -43,8 +26,37 @@ position = Vector2(-907, -597)
 rotation = -0.0010582
 scale = Vector2(-342.33, 57.6788)
 
-[node name="Timer" type="Timer" parent="." index="5"]
+[node name="Timer" type="Timer" parent="." index="4"]
 autostart = true
+ignore_time_scale = true
 
-[connection signal="playerLocation" from="Chunks/Level1Chunk" to="." method="_on_level_1_chunk_player_location"]
+[node name="UI" parent="." index="5" instance=ExtResource("4_5b03i")]
+
+[node name="GameOver" parent="." index="6"]
+unique_name_in_owner = true
+process_mode = 3
+
+[node name="VBoxContainer" parent="GameOver" index="1"]
+offset_top = -60.0
+offset_bottom = 240.0
+alignment = 1
+
+[node name="GameOver" parent="GameOver/VBoxContainer" index="0"]
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TimeLasted" parent="GameOver/VBoxContainer" index="1"]
+unique_name_in_owner = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BackgroundMusic" type="AudioStreamPlayer2D" parent="." index="7"]
+stream = ExtResource("4_iey7c")
+volume_db = -10.047
+autoplay = true
+
+[connection signal="player_death" from="Player" to="." method="_on_player_player_death"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="pressed" from="GameOver/VBoxContainer/Restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="GameOver/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
+[connection signal="finished" from="BackgroundMusic" to="." method="_on_background_music_finished"]
