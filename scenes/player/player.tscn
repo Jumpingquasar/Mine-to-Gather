@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bvvlr015ngbid"]
+[gd_scene load_steps=18 format=3 uid="uid://bvvlr015ngbid"]
 
 [ext_resource type="Script" uid="uid://cis6du41wmi2b" path="res://scenes/player/player.gd" id="1_8afob"]
 [ext_resource type="Texture2D" uid="uid://8c8ttxgvoqed" path="res://graphics/player/miner_animation.png" id="2_dovo2"]
@@ -9,6 +9,8 @@
 [ext_resource type="Texture2D" uid="uid://jcjdfv5rvqkq" path="res://graphics/health_bar/progress.png" id="7_qek5x"]
 [ext_resource type="AudioStream" uid="uid://bive2de4jcma3" path="res://sounds/player_hurt.wav" id="8_5gtgg"]
 [ext_resource type="AudioStream" uid="uid://q7kgxfrqpy4r" path="res://sounds/player_death.wav" id="9_h17s1"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5gtgg"]
 
 [sub_resource type="Animation" id="Animation_gmlin"]
 length = 0.001
@@ -67,8 +69,8 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_p47bc"]
 resource_name = "mining"
-length = 0.8
-step = 0.1
+length = 0.4
+step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -76,7 +78,7 @@ tracks/0/path = NodePath("PlayerState/MinerMining:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 1,
 "values": [0, 1, 2, 3, 4]
@@ -121,6 +123,7 @@ position = Vector2(0, 1)
 [node name="PlayerState" type="Node2D" parent="."]
 
 [node name="MinerIdle" type="Sprite2D" parent="PlayerState"]
+visible = false
 texture = ExtResource("2_dovo2")
 hframes = 4
 vframes = 6
@@ -132,7 +135,6 @@ hframes = 3
 vframes = 3
 
 [node name="MinerMining" type="Sprite2D" parent="PlayerState"]
-visible = false
 texture = ExtResource("4_lvxji")
 hframes = 2
 vframes = 3
@@ -142,8 +144,9 @@ frame = 1
 collision_layer = 32
 collision_mask = 16
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="PlayerState/MinableArea"]
-polygon = PackedVector2Array(14, -16, 60, -38, 75, -21, 76, 18, 63, 35, 18, 23)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerState/MinableArea"]
+scale = Vector2(8.06698, 7.93394)
+shape = SubResource("CircleShape2D_5gtgg")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

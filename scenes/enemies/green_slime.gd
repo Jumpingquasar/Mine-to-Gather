@@ -13,7 +13,7 @@ func _physics_process(delta: float) -> void:
 	move_and_collide(velocity * delta)
 	
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
-	if anim_name == "death":
+	if anim_name == "green_slime_death":
 		queue_free()
 	else:
 		$AnimationPlayer.play(anim_name)
@@ -30,4 +30,4 @@ func enemy_take_damage(passThrough: int) -> void:
 		$GreenSlimeDeath.visible = true
 		$Healthbar.visible = false
 		velocity = Vector2.ZERO
-		$AnimationPlayer.play("death")
+		$AnimationPlayer.play("green_slime_death")

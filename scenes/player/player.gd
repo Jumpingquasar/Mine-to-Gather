@@ -27,7 +27,7 @@ func _process(delta: float):
 		velocity = velocity.move_toward(Vector2.ZERO, numerical_deceleration * delta)
 	
 	if Input.is_action_just_pressed("mine"):
-		$MiningTimer.start(1)
+		$MiningTimer.start(0.4)
 		Globals.playerMovementState = MovementState.mining
 		_on_player_movement_state_changed(MovementState.mining)
 	elif $MiningTimer.is_stopped():

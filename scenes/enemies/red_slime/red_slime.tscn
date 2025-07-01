@@ -1,0 +1,107 @@
+[gd_scene load_steps=12 format=3 uid="uid://ckwl7lr7qh1go"]
+
+[ext_resource type="Script" uid="uid://dyol5ukilokx2" path="res://scenes/enemies/red_slime/red_slime.gd" id="1_hv7d2"]
+[ext_resource type="Texture2D" uid="uid://bqqcweab3fb5c" path="res://graphics/health_bar/outer.png" id="1_svir4"]
+[ext_resource type="Texture2D" uid="uid://jcjdfv5rvqkq" path="res://graphics/health_bar/progress.png" id="2_hv7d2"]
+[ext_resource type="Texture2D" uid="uid://m3jk3tx35ujf" path="res://graphics/enemies/green_slime/green_slime_death.png" id="2_orcth"]
+[ext_resource type="AudioStream" uid="uid://73ad45m57jao" path="res://sounds/slime_hurt.wav" id="3_eu0f2"]
+[ext_resource type="Texture2D" uid="uid://cgtpbj8v6nvq4" path="res://graphics/enemies/red_slime/red_slime.png" id="4_orcth"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ccjb6"]
+
+[sub_resource type="Animation" id="Animation_hv7d2"]
+resource_name = "red_slime_charging"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RedSlime:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.0666667, 0.1, 0.133333, 0.166667, 0.2, 0.233333, 0.25376, 0.287094, 0.292989, 0.320427, 0.326322, 0.359656, 0.371446, 0.40478, 0.409449, 0.438113, 0.442782, 0.463388, 0.476116, 0.496722, 0.530055, 0.532039, 0.565372, 0.592107, 0.598705, 0.625441, 0.655854, 0.658774, 0.689187, 0.722521, 0.723278, 0.756611, 0.777218, 0.789945, 0.810551, 0.843884, 0.859352, 0.892686, 0.926019, 0.93168, 0.965014, 0.998347, 0.999104, 1.03244, 1.06577, 1.06667, 1.1, 1.13333, 1.1597, 1.19303, 1.20505, 1.22636, 1.23839, 1.26758, 1.27172, 1.30091, 1.33424, 1.36442, 1.39775, 1.43109, 1.43333, 1.46667, 1.5, 1.53333, 1.54831, 1.58164, 1.61497),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 2, 3, 4, 2, 3, 2, 4, 3, 4, 2, 3, 2, 4, 3, 2, 4, 3, 4, 2, 3, 2, 4, 3, 2, 4, 3, 4, 2, 3, 2, 4, 3, 4, 2, 3, 4, 2, 3, 4, 2, 3, 4, 2, 3, 4, 2, 3, 2, 4, 3, 2, 4, 3, 4, 2, 3, 4, 2, 2, 3, 4, 2, 3, 4]
+}
+
+[sub_resource type="Animation" id="Animation_eu0f2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RedSlime:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_gqdew"]
+resource_name = "death"
+length = 0.5
+step = 0.03
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RedSlimeDeath:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.03, 0.06, 0.09, 0.12, 0.15, 0.18, 0.21, 0.24),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_eu0f2"]
+_data = {
+&"RESET": SubResource("Animation_eu0f2"),
+&"death": SubResource("Animation_gqdew"),
+&"red_slime_charging": SubResource("Animation_hv7d2")
+}
+
+[node name="RedSlime" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 9
+script = ExtResource("1_hv7d2")
+
+[node name="RedSlimeDeath" type="Sprite2D" parent="."]
+visible = false
+scale = Vector2(1.33297, 1.33297)
+texture = ExtResource("2_orcth")
+hframes = 3
+vframes = 4
+frame = 8
+
+[node name="Healthbar" type="TextureProgressBar" parent="."]
+offset_left = -10.0
+offset_top = -23.0
+offset_right = 30.0
+offset_bottom = 17.0
+value = 100.0
+texture_over = ExtResource("1_svir4")
+texture_progress = ExtResource("2_hv7d2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(-1.7127, 1.59067)
+shape = SubResource("CircleShape2D_ccjb6")
+
+[node name="Hurt" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_eu0f2")
+volume_db = -0.375
+
+[node name="RedSlime" type="Sprite2D" parent="."]
+position = Vector2(-2.84217e-14, -1)
+scale = Vector2(1.3631, 1.3631)
+texture = ExtResource("4_orcth")
+hframes = 3
+vframes = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_eu0f2")
+}

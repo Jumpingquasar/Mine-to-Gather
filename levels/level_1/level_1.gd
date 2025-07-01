@@ -41,6 +41,12 @@ func spawn_mob():
 	%PathFollow2D.progress_ratio = randf()
 	new_slime.global_position = %PathFollow2D.global_position
 	$Enemies.add_child(new_slime)
+	if Globals.game_time > 60:
+		var new_red_slime = preload("res://scenes/enemies/red_slime/red_slime.tscn").instantiate()
+		%PathFollow2D.progress_ratio = randf()
+		new_red_slime.global_position = %PathFollow2D.global_position
+		$Enemies.add_child(new_red_slime)
+		
 
 
 func _on_timer_timeout() -> void:
@@ -80,6 +86,10 @@ func _on_restart_pressed() -> void:
 func _on_quit_pressed() -> void:
 	get_tree().quit()
 	
-
 func _on_background_music_finished() -> void:
-	$BackgroundMusic.play()
+	$BackgroundMusic.play(0)
+
+
+func _on_resume_pressed() -> void:
+		get_tree().paused = false
+		$PauseMenu.visible = false

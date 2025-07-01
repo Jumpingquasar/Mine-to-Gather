@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bf8gauepq6yex"]
+[gd_scene load_steps=14 format=3 uid="uid://bf8gauepq6yex"]
 
 [ext_resource type="Script" uid="uid://dkpg1uj6bri11" path="res://scenes/enemies/green_slime.gd" id="1_uc0f6"]
 [ext_resource type="Texture2D" uid="uid://bwnsnj13k6hht" path="res://graphics/enemies/green_slime/green_slime_walking.png" id="2_dvo7u"]
@@ -59,7 +59,7 @@ step = 0.03
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("GreenSlimeDeath:frame")
+tracks/0/path = NodePath("RedSlimeDeath:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -69,11 +69,34 @@ tracks/0/keys = {
 "values": [0, 1, 2, 3, 4, 5, 6, 7, 8]
 }
 
+[sub_resource type="Animation" id="Animation_0yheu"]
+resource_name = "green_slime_death"
+length = 0.3
+step = 0.03
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GreenSlimeDeath:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.03, 0.06, 0.09, 0.12, 0.15, 0.18, 0.21, 0.242424),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8]
+}
+
+[sub_resource type="Animation" id="Animation_ro53o"]
+resource_name = "red_slime_death"
+step = 0.03
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_s1jsf"]
 _data = {
 &"GreenSlimeWalking": SubResource("Animation_dvo7u"),
 &"RESET": SubResource("Animation_uc0f6"),
-&"death": SubResource("Animation_gqdew")
+&"death": SubResource("Animation_gqdew"),
+&"green_slime_death": SubResource("Animation_0yheu"),
+&"red_slime_death": SubResource("Animation_ro53o")
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_uc0f6"]

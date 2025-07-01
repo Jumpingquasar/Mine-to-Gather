@@ -1,15 +1,39 @@
-[gd_scene load_steps=6 format=3 uid="uid://df6srusqaquo2"]
+[gd_scene load_steps=16 format=3 uid="uid://df6srusqaquo2"]
 
 [ext_resource type="PackedScene" uid="uid://dypq7kc8s3xh0" path="res://levels/parent_level.tscn" id="1_k1ttk"]
 [ext_resource type="Script" uid="uid://dqy3jmlsxfeeb" path="res://levels/level_1/level_1.gd" id="2_45440"]
+[ext_resource type="PackedScene" uid="uid://ckwl7lr7qh1go" path="res://scenes/enemies/red_slime/red_slime.tscn" id="3_mxc8w"]
 [ext_resource type="PackedScene" uid="uid://cnxi1bupfg7cq" path="res://scenes/UI/UI.tscn" id="4_5b03i"]
+[ext_resource type="FontFile" uid="uid://cfhhd352mvmsc" path="res://graphics/font/HanaleiFill-Regular.ttf" id="4_e6u7d"]
 [ext_resource type="AudioStream" uid="uid://msxhya4gbpe" path="res://sounds/game-176807.mp3" id="4_iey7c"]
+[ext_resource type="Script" uid="uid://bwanufto1nbmn" path="res://levels/level_1/pause_menu.gd" id="6_e6u7d"]
 
 [sub_resource type="Curve2D" id="Curve2D_iey7c"]
 _data = {
 "points": PackedVector2Array(0, 0, 0, 0, -907, -597, 0, 0, 0, 0, 983, -599, 0, 0, 0, 0, 972, 730, 0, 0, 0, 0, -905, 734, 0, 0, 0, 0, -905, -595)
 }
 point_count = 5
+
+[sub_resource type="Theme" id="Theme_mxc8w"]
+default_font = ExtResource("4_e6u7d")
+
+[sub_resource type="Theme" id="Theme_j48du"]
+default_font = ExtResource("4_e6u7d")
+
+[sub_resource type="Theme" id="Theme_8jbay"]
+default_font = ExtResource("4_e6u7d")
+
+[sub_resource type="Theme" id="Theme_la5aw"]
+default_font = ExtResource("4_e6u7d")
+
+[sub_resource type="Theme" id="Theme_qbdb0"]
+default_font = ExtResource("4_e6u7d")
+
+[sub_resource type="Theme" id="Theme_hyp3v"]
+default_font = ExtResource("4_e6u7d")
+
+[sub_resource type="Theme" id="Theme_1ow6f"]
+default_font = ExtResource("4_e6u7d")
 
 [node name="Level1" instance=ExtResource("1_k1ttk")]
 script = ExtResource("2_45440")
@@ -42,21 +66,82 @@ offset_bottom = 240.0
 alignment = 1
 
 [node name="GameOver" parent="GameOver/VBoxContainer" index="0"]
+theme = SubResource("Theme_mxc8w")
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="TimeLasted" parent="GameOver/VBoxContainer" index="1"]
 unique_name_in_owner = true
+theme = SubResource("Theme_j48du")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Restart" parent="GameOver/VBoxContainer" index="2"]
+theme = SubResource("Theme_8jbay")
+
+[node name="Quit" parent="GameOver/VBoxContainer" index="3"]
+theme = SubResource("Theme_la5aw")
 
 [node name="BackgroundMusic" type="AudioStreamPlayer2D" parent="." index="7"]
 stream = ExtResource("4_iey7c")
 volume_db = -10.047
 autoplay = true
 
+[node name="PauseMenu" type="CanvasLayer" parent="." index="8"]
+process_mode = 3
+visible = false
+script = ExtResource("6_e6u7d")
+
+[node name="ColorRect" type="ColorRect" parent="PauseMenu" index="0"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.552941)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseMenu" index="1"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -46.0
+offset_top = -60.0
+offset_right = 46.0
+offset_bottom = 240.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+alignment = 1
+
+[node name="GameOver" type="Label" parent="PauseMenu/VBoxContainer" index="0"]
+layout_mode = 2
+theme = SubResource("Theme_qbdb0")
+text = " Game Paused "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Resume" type="Button" parent="PauseMenu/VBoxContainer" index="1"]
+process_mode = 3
+layout_mode = 2
+theme = SubResource("Theme_hyp3v")
+text = "Resume"
+
+[node name="Quit" type="Button" parent="PauseMenu/VBoxContainer" index="2"]
+process_mode = 3
+layout_mode = 2
+theme = SubResource("Theme_1ow6f")
+text = "Quit"
+
+[node name="RedSlime" parent="." index="9" instance=ExtResource("3_mxc8w")]
+position = Vector2(260, -1)
+
 [connection signal="player_death" from="Player" to="." method="_on_player_player_death"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="pressed" from="GameOver/VBoxContainer/Restart" to="." method="_on_restart_pressed"]
 [connection signal="pressed" from="GameOver/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
 [connection signal="finished" from="BackgroundMusic" to="." method="_on_background_music_finished"]
+[connection signal="pressed" from="PauseMenu/VBoxContainer/Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="PauseMenu/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
